@@ -116,6 +116,10 @@ namespace WebApiCloud.Controllers
                 }
 
                 var userObj = _userService.UpdateUser(user);
+                if(userObj == null)
+                {
+                    return BadRequest("User data not updated properly");
+                }
 
                 return Ok(userObj);
             }

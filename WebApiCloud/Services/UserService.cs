@@ -29,13 +29,18 @@ namespace WebApiCloud.Services
 
         public User UpdateUser(User user)
         {
-            var filter = Builders<User>.Filter.Eq("email", user.Email);
-            var update = Builders<User>.Update.Set("userRoles", user.UserRoles);
+            var filter = Builders<User>.Filter.Eq("Email", user.Email);
+            var update = Builders<User>.Update.Set("UserRoles", user.UserRoles);
 
-            _Users.UpdateOne(filter, update);
-
-            //_Users.UpdateOne(user);
-            return user;
+            var updatedResult = _Users.UpdateOne(filter, update);
+            if(updatedResult.MatchedCount > 0 || updatedResult.ModifiedCount > 0)
+            {
+                return user;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public List<User> GetUserList() =>

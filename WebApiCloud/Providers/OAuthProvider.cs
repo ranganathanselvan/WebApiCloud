@@ -5,11 +5,20 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Owin.Security.OAuth;
 using WebApiCloud.Services;
+using WebApiCloud.Models;
 
 namespace WebApiCloud.Providers
 {
+    /// <summary>
+    /// OAuthProvider
+    /// </summary>
     public class OAuthProvider : OAuthAuthorizationServerProvider
     {
+        /// <summary>
+        /// GrantResourceOwnerCredentials to check Credentials
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         #region[GrantResourceOwnerCredentials]
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
@@ -21,12 +30,7 @@ namespace WebApiCloud.Providers
                 var user = userService.ValidateUser(userName, password);
                 if (user != null)
                 {
-                    var claims = new List<Claim>()
-                    {
-                        new Claim(ClaimTypes.Sid, Convert.ToString(user.Id)),
-                        new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName),
-                        new Claim(ClaimTypes.Email, user.Email)
-                    };
+                    var claims = getClaims(user);
                     ClaimsIdentity oAuthIdentity = new ClaimsIdentity(claims,
                                 Startup.OAuthOptions.AuthenticationType);
 
@@ -40,8 +44,28 @@ namespace WebApiCloud.Providers
                 }
             });
         }
+        private List<Claim> getClaims(User user)
+        {
+            List<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Sid, Convert.ToString(user.Id)));
+            claims.Add(new Claim(ClaimTypes.Name, user.FirstName + " " + user.LastName));
+            claims.Add(new Claim(ClaimTypes.Email, user.Email));
+            if (user.UserRoles != null)
+            {
+                foreach (var item in user.UserRoles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, item.RoleName));
+                }
+            }
+            return claims;
+        }
         #endregion
 
+        /// <summary>
+        /// ValidateClientAuthentication
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         #region[ValidateClientAuthentication]
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
@@ -52,6 +76,11 @@ namespace WebApiCloud.Providers
         }
         #endregion
 
+        /// <summary>
+        /// TokenEndpoint
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         #region[TokenEndpoint]
         public override Task TokenEndpoint(OAuthTokenEndpointContext context)
         {
@@ -64,6 +93,11 @@ namespace WebApiCloud.Providers
         }
         #endregion
 
+        /// <summary>
+        /// CreateProperties
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         #region[CreateProperties]
         public static AuthenticationProperties CreateProperties(string userName)
         {

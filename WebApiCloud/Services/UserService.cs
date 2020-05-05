@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +27,20 @@ namespace WebApiCloud.Services
             return user;
         }
 
+        public User UpdateUser(User user)
+        {
+            var filter = Builders<User>.Filter.Eq("email", user.Email);
+            var update = Builders<User>.Update.Set("userRoles", user.UserRoles);
+
+            _Users.UpdateOne(filter, update);
+
+            //_Users.UpdateOne(user);
+            return user;
+        }
+
         public List<User> GetUserList() =>
             _Users.Find(user => true).ToList();
-        
+
 
         public User ValidateUser(string email, string password)
         {
@@ -48,6 +60,8 @@ namespace WebApiCloud.Services
         List<User> GetUserList();
 
         User CreateUser(User user);
+
+        User UpdateUser(User user);
 
         User GetUser(string email);
     }

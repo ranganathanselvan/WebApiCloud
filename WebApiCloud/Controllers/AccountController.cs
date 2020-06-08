@@ -8,6 +8,7 @@ using System.Web.Http.Cors;
 using WebApiCloud.Common;
 using WebApiCloud.Models;
 using WebApiCloud.Services;
+using JWT;
 
 namespace WebApiCloud.Controllers
 {
@@ -17,14 +18,14 @@ namespace WebApiCloud.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
         /// <summary>
         /// AccountController Constructor
         /// </summary>
-        public AccountController()
+        public AccountController(IUserService userService)
         {
-            _userService = new UserService();
+            _userService = userService;
         }
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace WebApiCloud.Controllers
         [Route("api/account/get")]
         public IHttpActionResult Get()
         {
+            //var arr = ((Dictionary<string, dynamic>)JsonWebToken.DecodeToObject(auth.ToString(), string.Empty, false))?.First(k => k.Key == "Role").Value;
             return Ok("Welcome");
         }
 

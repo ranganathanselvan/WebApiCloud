@@ -11,6 +11,9 @@ namespace WebApiCloud
 {
     public partial class Startup
     {
+        /// <summary>
+        /// OAuthOptions property
+        /// </summary>
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
 
         static Startup()
@@ -23,6 +26,11 @@ namespace WebApiCloud
                 AllowInsecureHttp = true
             };
         }
+
+        /// <summary>
+        /// ConfigureAuth
+        /// </summary>
+        /// <param name="app"></param>
         public void ConfigureAuth(IAppBuilder app)
         {
             app.UseOAuthBearerTokens(OAuthOptions);

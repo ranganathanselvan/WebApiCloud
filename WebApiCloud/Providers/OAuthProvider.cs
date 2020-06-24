@@ -1,11 +1,11 @@
-﻿using System;
-using Microsoft.Owin.Security;
+﻿using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.OAuth;
+using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using Microsoft.Owin.Security.OAuth;
-using WebApiCloud.Services;
 using WebApiCloud.Models;
+using WebApiCloud.Services;
 
 namespace WebApiCloud.Providers
 {

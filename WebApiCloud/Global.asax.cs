@@ -7,13 +7,24 @@ using System.Web.Routing;
 
 namespace WebApiCloud
 {
+    /// <summary>
+    /// WebApiApplication
+    /// </summary>
     public class WebApiApplication : System.Web.HttpApplication
     {
+        /// <summary>
+        /// Constructor
+        /// </summary>
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
         }
 
+        /// <summary>
+        /// Application_BeginRequest
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Application_BeginRequest(object sender, EventArgs e)
         {
             if (HttpContext.Current.Request.HttpMethod == "OPTIONS")

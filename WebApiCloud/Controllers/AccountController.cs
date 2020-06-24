@@ -15,7 +15,6 @@ namespace WebApiCloud.Controllers
     /// <summary>
     /// Account Controller for Users
     /// </summary>
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class AccountController : ApiController
     {
         private readonly IUserService _userService;
@@ -84,7 +83,15 @@ namespace WebApiCloud.Controllers
                 {
                     return BadRequest("User is not valid");
                 }
+                var userExists = _userService.GetUser(user.Email);
+                if(userExists != null)
+                {
+                    return BadRequest($"email is exists already : {user.Email}");
+                }
                 user.Password = Utility.EncryptData(user.Password);
+                UserRole userRole = new UserRole();
+                userRole.RoleName = "User";
+                user.UserRoles.Add(userRole);
                 var userObj = _userService.CreateUser(user);
 
                 return Ok(userObj);

@@ -91,7 +91,9 @@ namespace WebApiCloud.Controllers
                 user.Password = Utility.EncryptData(user.Password);
                 UserRole userRole = new UserRole();
                 userRole.RoleName = "User";
-                user.UserRoles.Add(userRole);
+                List<UserRole> list = new List<UserRole>();
+                list.Add(userRole);
+                user.UserRoles = list;
                 var userObj = _userService.CreateUser(user);
 
                 return Ok(userObj);

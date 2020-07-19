@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1000
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCloud", "WebApiCloud\WebApiCloud.csproj", "{206EF71E-1297-4DBD-A2C9-23F451D16F9E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiCloudUnitTest", "WebApiCloudUnitTest\WebApiCloudUnitTest.csproj", "{5D126A6A-1223-49D8-A825-C411848CC09C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{206EF71E-1297-4DBD-A2C9-23F451D16F9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{206EF71E-1297-4DBD-A2C9-23F451D16F9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{206EF71E-1297-4DBD-A2C9-23F451D16F9E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D126A6A-1223-49D8-A825-C411848CC09C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D126A6A-1223-49D8-A825-C411848CC09C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D126A6A-1223-49D8-A825-C411848CC09C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D126A6A-1223-49D8-A825-C411848CC09C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

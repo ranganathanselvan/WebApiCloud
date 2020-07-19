@@ -43,7 +43,12 @@ namespace WebApiCloud.Services
         public User UpdateUser(User user)
         {
             var filter = Builders<User>.Filter.Eq("Email", user.Email);
-            var update = Builders<User>.Update.Set("UserRoles", user.UserRoles);
+            var update = Builders<User>.Update
+                                            .Set("UserRoles", user.UserRoles)
+                                            .Set("FirstName", user.FirstName)
+                                            .Set("LastName", user.LastName)
+                                            .Set("Phone", user.Phone)
+                                            .Set("Password", Utility.EncryptData(user.Password));
 
             var updatedResult = _Users.UpdateOne(filter, update);
             if(updatedResult.MatchedCount > 0 || updatedResult.ModifiedCount > 0)

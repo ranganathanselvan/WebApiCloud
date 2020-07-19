@@ -21,6 +21,7 @@ namespace WebApiCloud.App_Start
             Container = new Container(_ =>
             {
                 _.For<IUserService>().Use<UserService>();
+                _.For<IPortfolioService>().Use<PortfolioService>();
             });
         }
     }

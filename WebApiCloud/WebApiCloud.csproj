@@ -185,14 +185,21 @@
     <Compile Include="Common\Global.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\PortfolioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Certifications.cs" />
+    <Compile Include="Models\Portfolio.cs" />
+    <Compile Include="Models\Skills.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserRole.cs" />
+    <Compile Include="Models\WorkInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\OAuthProvider.cs" />
+    <Compile Include="Services\IPortfolioService.cs" />
     <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\PortfolioService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

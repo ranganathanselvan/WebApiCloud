@@ -75,7 +75,7 @@ namespace WebApiCloudUnitTest
             Assert.AreEqual("AA@AA.com", contentResult.Content.Email);
         }
 
-        [TestMethod]
+       /* [TestMethod]
         public void CreateUser_ShouldCreateUser()
         {
             // Arrange
@@ -90,7 +90,7 @@ namespace WebApiCloudUnitTest
             Assert.IsNotNull(createdResult);
             Assert.AreEqual("DefaultApi", createdResult.RouteName);
             Assert.AreEqual(3, createdResult.RouteValues["Id"]);
-        }
+        }*/
 
         private List<User> ReturnUsersList()
         {

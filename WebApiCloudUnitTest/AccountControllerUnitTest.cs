@@ -17,9 +17,9 @@ namespace WebApiCloudUnitTest
         [TestMethod]
         public void Get_ShouldReturnCorrectString()
         {
-            // Set up Prerequisites 
-            IUserService mockIUserService = new UserService();
-            var mockAccountController = new AccountController(mockIUserService);
+            // Arrange            
+            var mockIUserService = new Mock<IUserService>();
+            var mockAccountController = new AccountController(mockIUserService.Object);
 
             // Act on Test  
             var response = mockAccountController.Get() as OkNegotiatedContentResult<string>;
@@ -78,18 +78,21 @@ namespace WebApiCloudUnitTest
         [TestMethod]
         public void CreateUser_ShouldCreateUser()
         {
+            var user = new User { Id = "3", FirstName = "CC", LastName = "CC", Email = "CC@CC.com", Phone = "123131313", Password = "123456" };
             // Arrange
             var mockIUserService = new Mock<IUserService>();
+            mockIUserService.Setup(x => x.CreateUser(user))
+                .Returns(user);
             var controller = new AccountController(mockIUserService.Object);
 
             // Act
-            IHttpActionResult actionResult = controller.CreateUser(new User { Id = "3", FirstName = "CC", LastName = "CC", Email="CC@CC.com", Phone="123131313", Password ="123456" });
-            var createdResult = actionResult as CreatedAtRouteNegotiatedContentResult<User>;
+            IHttpActionResult actionResult = controller.CreateUser(user);
+            var createdResult = actionResult as OkNegotiatedContentResult<User>;
 
             // Assert
             Assert.IsNotNull(createdResult);
-            Assert.AreEqual("DefaultApi", createdResult.RouteName);
-            Assert.AreEqual(3, createdResult.RouteValues["Id"]);
+            Assert.IsNotNull(createdResult.Content);
+            Assert.AreEqual("3", createdResult.Content.Id);
         }
 
         private List<User> ReturnUsersList()

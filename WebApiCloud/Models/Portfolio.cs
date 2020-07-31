@@ -52,6 +52,10 @@ namespace WebApiCloud.Models
         /// Certifications
         /// </summary>
         public List<Certifications> Certifications { get; set; }
+        /// <summary>
+        /// CreatedOn
+        /// </summary>
+        public DateTime? CreatedOn { get; set; }
 
     }
 }

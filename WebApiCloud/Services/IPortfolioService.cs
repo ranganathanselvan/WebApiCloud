@@ -22,7 +22,7 @@ namespace WebApiCloud.Services
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        Portfolio GetPortfolio(string email);
+        Task<Portfolio> GetPortfolio(string email);
         /// <summary>
         /// CreatePortfolio
         /// </summary>

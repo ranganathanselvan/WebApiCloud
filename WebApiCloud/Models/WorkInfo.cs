@@ -21,11 +21,11 @@ namespace WebApiCloud.Models
         /// <summary>
         /// StartDate
         /// </summary>
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
         /// <summary>
         /// EndDate
         /// </summary>
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
         /// <summary>
         /// isCurrentCompany
         /// </summary>

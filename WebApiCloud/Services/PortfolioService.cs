@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using WebApiCloud.Models;
 
@@ -49,9 +50,11 @@ namespace WebApiCloud.Services
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        public Portfolio GetPortfolio(string email)
+        public async Task<Portfolio> GetPortfolio(string email)
         {
-            return _portfolio.Find<Portfolio>(p => p.Email == email).FirstOrDefault();
+            var objIAsyncPortfolio = await _portfolio.FindAsync<Portfolio>(p => p.Email == email);
+            var listPortfolio = await objIAsyncPortfolio.ToListAsync();
+            return listPortfolio[0];
         }
 
         /// <summary>

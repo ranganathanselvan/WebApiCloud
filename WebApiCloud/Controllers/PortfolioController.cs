@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using WebApiCloud.Models;
 using WebApiCloud.Services;
+using Newtonsoft.Json;
 
 namespace WebApiCloud.Controllers
 {
@@ -44,11 +46,19 @@ namespace WebApiCloud.Controllers
         /// <param name="email"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("api/portfolio/getbyemail")]
-        public IHttpActionResult GetPortfolio(string email)
+        [Route("api/portfolio/getbyemail/{email}")]
+        public async Task<IHttpActionResult> GetPortfolio(string email)
         {
-            var portfolio = _portfolioService.GetPortfolio(email);
-            return Ok(portfolio);
+            try
+            {
+                var portfolio = await _portfolioService.GetPortfolio(email);
+                return Ok(portfolio);
+            }
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
+            
         }
 
         /// <summary>
@@ -71,6 +81,7 @@ namespace WebApiCloud.Controllers
                 {
                     return BadRequest($"email is exists already : {portfolio.Email}");
                 }
+                portfolio.CreatedOn = DateTime.Now;
                 var portfolioObj = _portfolioService.CreatePortfolio(portfolio);
 
                 return Ok(portfolioObj);
@@ -97,11 +108,11 @@ namespace WebApiCloud.Controllers
                     return BadRequest("User is not valid");
                 }
 
-                var existPortfolio = _portfolioService.GetPortfolio(portfolio.Email);
+                /*var existPortfolio = await _portfolioService.GetPortfolio(portfolio.Email);
                 if (existPortfolio.Id.Length <= 0)
                 {
                     return BadRequest("Portfolio is not valid");
-                }
+                }*/
 
                 var portfolioObj = _portfolioService.UpdatePortfolio(portfolio);
                 if (portfolioObj == null)

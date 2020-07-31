@@ -14,13 +14,38 @@ namespace WebApiCloudUnitTest
     [TestClass]
     public class AccountControllerUnitTest
     {
+        Mock<IUserService> mockIUserService;
+        AccountController mockAccountController;
+        User user;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            mockIUserService = new Mock<IUserService>();
+
+            mockIUserService.Setup(x => x.GetUserList())
+                .Returns(ReturnUsersList());
+
+            mockIUserService.Setup(x => x.GetUser("AA@AA.com"))
+                .Returns(new User()
+                {
+                    Id = "1",
+                    FirstName = "AA",
+                    LastName = "AA",
+                    Email = "AA@AA.com",
+                    Phone = "1234567890",
+                    Password = "123456"
+                });
+            user = ReturnSingleUser();
+            mockIUserService.Setup(x => x.CreateUser(user))
+                .Returns(user);
+
+            mockAccountController = new AccountController(mockIUserService.Object);
+        }
+
         [TestMethod]
         public void Get_ShouldReturnCorrectString()
         {
-            // Arrange            
-            var mockIUserService = new Mock<IUserService>();
-            var mockAccountController = new AccountController(mockIUserService.Object);
-
             // Act on Test  
             var response = mockAccountController.Get() as OkNegotiatedContentResult<string>;
 
@@ -31,15 +56,8 @@ namespace WebApiCloudUnitTest
         [TestMethod]
         public void GetAllUsers_ShouldReturnAllUsers()
         {
-            // Arrange            
-            var mockIUserService = new Mock<IUserService>();
-            mockIUserService.Setup(x => x.GetUserList())
-                .Returns(ReturnUsersList());
-
-            var controller = new AccountController(mockIUserService.Object);
-
             // Act
-            IHttpActionResult actionResult = controller.GetAllUsers();
+            IHttpActionResult actionResult = mockAccountController.GetAllUsers();
             var contentResult = actionResult as OkNegotiatedContentResult<List<User>>;
 
             // Assert
@@ -51,22 +69,8 @@ namespace WebApiCloudUnitTest
         [TestMethod]
         public void GetUser_ShouldReturnUserByEmail()
         {
-            // Arrange            
-            var mockIUserService = new Mock<IUserService>();
-            mockIUserService.Setup(x => x.GetUser("AA@AA.com"))
-                .Returns(new User() {
-                    Id = "1",
-                    FirstName = "AA",
-                    LastName = "AA",
-                    Email = "AA@AA.com",
-                    Phone = "1234567890",
-                    Password = "123456"
-        });
-
-            var controller = new AccountController(mockIUserService.Object);
-
             // Act
-            IHttpActionResult actionResult = controller.GetUser("AA@AA.com");
+            IHttpActionResult actionResult = mockAccountController.GetUser("AA@AA.com");
             var contentResult = actionResult as OkNegotiatedContentResult<User>;
 
             // Assert
@@ -78,15 +82,8 @@ namespace WebApiCloudUnitTest
         [TestMethod]
         public void CreateUser_ShouldCreateUser()
         {
-            var user = new User { Id = "3", FirstName = "CC", LastName = "CC", Email = "CC@CC.com", Phone = "123131313", Password = "123456" };
-            // Arrange
-            var mockIUserService = new Mock<IUserService>();
-            mockIUserService.Setup(x => x.CreateUser(user))
-                .Returns(user);
-            var controller = new AccountController(mockIUserService.Object);
-
             // Act
-            IHttpActionResult actionResult = controller.CreateUser(user);
+            IHttpActionResult actionResult = mockAccountController.CreateUser(user);
             var createdResult = actionResult as OkNegotiatedContentResult<User>;
 
             // Assert
@@ -116,6 +113,11 @@ namespace WebApiCloudUnitTest
             user2.Password = "123456";
 
             return users;
+        }
+
+        private User ReturnSingleUser()
+        {
+            return new User { Id = "3", FirstName = "CC", LastName = "CC", Email = "CC@CC.com", Phone = "123131313", Password = "123456" };
         }
     }
 }

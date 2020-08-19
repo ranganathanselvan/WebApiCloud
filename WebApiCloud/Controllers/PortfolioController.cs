@@ -99,7 +99,7 @@ namespace WebApiCloud.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("api/portfolio/updateportfolio")]
-        public IHttpActionResult UpdatePortfolio([FromBody] Portfolio portfolio)
+        public async Task<IHttpActionResult> UpdatePortfolio([FromBody] Portfolio portfolio)
         {
             try
             {
@@ -108,19 +108,24 @@ namespace WebApiCloud.Controllers
                     return BadRequest("User is not valid");
                 }
 
-                /*var existPortfolio = await _portfolioService.GetPortfolio(portfolio.Email);
-                if (existPortfolio.Id.Length <= 0)
+                var existPortfolio = await _portfolioService.GetPortfolio(portfolio.Email);
+                if (existPortfolio != null)
                 {
-                    return BadRequest("Portfolio is not valid");
-                }*/
+                    var portfolioObj = _portfolioService.UpdatePortfolio(portfolio);
+                    if (portfolioObj == null)
+                    {
+                        return BadRequest("Portfolio data not updated properly");
+                    }
 
-                var portfolioObj = _portfolioService.UpdatePortfolio(portfolio);
-                if (portfolioObj == null)
-                {
-                    return BadRequest("Portfolio data not updated properly");
+                    return Ok(portfolioObj);
                 }
+                else
+                {
+                    portfolio.CreatedOn = DateTime.Now;
+                    var portfolioObj = _portfolioService.CreatePortfolio(portfolio);
 
-                return Ok(portfolioObj);
+                    return Ok(portfolioObj);
+                }                
             }
             catch (Exception ex)
             {

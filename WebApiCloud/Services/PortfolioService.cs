@@ -54,6 +54,8 @@ namespace WebApiCloud.Services
         {
             var objIAsyncPortfolio = await _portfolio.FindAsync<Portfolio>(p => p.Email == email);
             var listPortfolio = await objIAsyncPortfolio.ToListAsync();
+            if (listPortfolio.Count == 0)
+                return null;
             return listPortfolio[0];
         }
 
